@@ -19,7 +19,7 @@ const Skill = ({ incrementSkill, skill, skillIndex, resetSkill }) => {
                         variant='secondary'
                         size='sm'
                         onClick={() => {incrementSkill(skillIndex)}}
-                        >
+                    >
                         Increment Skill
                     </Button>
                 </Row>

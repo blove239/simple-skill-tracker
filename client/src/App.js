@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
-import Header from './Components/Header'
-import Skill from './Components/Skill'
-import { Button, Container, Col, FormControl, InputGroup, Row } from 'react-bootstrap'
+import React, { useState } from 'react';
+import CreateSkill from './Components/CreateSkill';
+import Loading from './Components/Loading';
+import NavBar from './Components/NavBar';
+import Skill from './Components/Skill';
+import { Button, Container, Col, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const App = () => {
   const [newSkillName, setNewSkillName] = useState('');
@@ -15,6 +18,11 @@ const App = () => {
       hours: 2.5
     }]
   );
+  
+  const [message, setMessage] = useState('')
+  const { isLoading } = useAuth0();
+
+  const serverUrl = process.env.REACT_APP_SERVERURL
 
   const resetSkill = (index) => {
     let tempSkillList = skillList.slice()
@@ -41,28 +49,47 @@ const App = () => {
     setNewSkillName(e.target.value)
   }
 
+  const { getAccessTokenSilently } = useAuth0();
+
+  const callSecureApi = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(
+        `${serverUrl}/authorized`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const responseData = await response.json();
+      setMessage(responseData.message);
+    } catch (error) {
+      console.log(error)
+      setMessage(error.message);
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <Header />
+      <NavBar />
+      <Button
+        onClick={callSecureApi}
+      >
+        TEST FETCH
+      </Button>
+      <div>{message}</div>
       <Container>
         <Row className='d-flex justify-content-center'>
           <Col xs xl='6'>
-            <InputGroup className='mb-3'>
-              <FormControl
-                placeholder='Enter Skill Name'
-                aria-label='Enter Skill Name'
-                aria-describedby='basic-addon2'
-                onChange={handleChange}
-              />
-              <InputGroup.Append>
-                <Button
-                  variant='outline-secondary'
-                  onClick={createSkill}
-                >
-                  Create Skill
-              </Button>
-              </InputGroup.Append>
-            </InputGroup>
+            <CreateSkill
+              createSkill={createSkill}
+              handleChange={handleChange}
+            />
           </Col>
         </Row>
         <Row className='d-flex justify-content-center'>
