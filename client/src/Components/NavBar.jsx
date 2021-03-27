@@ -16,7 +16,7 @@ const AuthNav = () => {
 
 const NavBar = () => (
   <Navbar bg="light">
-    <Container xs xl="6">
+    <Container xs="6" xl="6">
       <Navbar.Brand href="/">
         Simple Skill Tracker
       </Navbar.Brand>
