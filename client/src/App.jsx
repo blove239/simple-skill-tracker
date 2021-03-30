@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Col,
@@ -12,7 +12,26 @@ import Skill from './Components/Skill';
 
 const App = () => {
   const [skillList, setSkillList] = useState([]);
-  const { isLoading } = useAuth0();
+
+  const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+
+  useEffect(async () => {
+    if (isAuthenticated && !isLoading) {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await fetch('http://localhost:8003/api/v1/users',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        const data = await response.json();
+        setSkillList(data.skills);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [isAuthenticated, isLoading]);
 
   if (isLoading) {
     return <Loading />;

@@ -6,8 +6,10 @@ const jwks = require('jwks-rsa');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const routes = require('./routes/routes.js');
 const config = require('./utils/config');
+require('dotenv').config();
 
 app.use(cors());
 
@@ -34,6 +36,24 @@ app.use(jwtCheck);
 
 app.use('/api/v1', routes);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port, ${PORT}`);
-});
+const uri = process.env.MONGO_URI;
+
+function listen() {
+  app.listen(PORT, () => {
+    console.log(`Server listening on port, ${PORT}`);
+  });
+}
+
+function connect() {
+  mongoose.connection
+    .on('error', console.log)
+    .on('disconnected', connect)
+    .once('open', listen);
+  return mongoose.connect(uri, {
+    keepAlive: 1,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+}
+
+connect();

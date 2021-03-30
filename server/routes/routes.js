@@ -1,12 +1,11 @@
 const routes = require('express').Router();
+const userController = require('../controllers/userController');
 
 routes.get('/authorized', (req, res) => {
   res.send({ message: 'Secured Resource' });
 });
 
-routes.get('/users', (req, res) => {
-  res.send({ message: 'users endpoint' });
-});
+routes.get('/users', userController.find);
 
 routes.get('/skills', (req, res) => {
   res.send({ message: 'return all skills' });
