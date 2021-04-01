@@ -35,7 +35,7 @@ const Skill = ({
       <Col>
         <Row>
           <Col>
-            {skill.name}
+            {skill.title}
           </Col>
           <Col className="d-flex justify-content-end">
             <Button
@@ -80,7 +80,7 @@ export default Skill;
 Skill.propTypes = {
   setSkillList: PropTypes.func.isRequired,
   skill: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     hours: PropTypes.number.isRequired,
   }).isRequired,
   skillList: PropTypes.arrayOf(PropTypes.object).isRequired,

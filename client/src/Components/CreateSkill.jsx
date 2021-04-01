@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -6,13 +7,22 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 
-const CreateSkill = ({ skillList, setSkillList }) => {
+const CreateSkill = ({ setSkillList }) => {
   const [newSkillName, setNewSkillName] = useState('');
-
-  const createSkill = () => {
-    const tempSkillList = skillList.concat({ name: newSkillName, hours: 0 });
-    setNewSkillName('');
-    setSkillList(tempSkillList);
+  const api = process.env.REACT_APP_API;
+  const { getAccessTokenSilently } = useAuth0();
+  const createSkill = async () => {
+    const token = await getAccessTokenSilently();
+    const response = await fetch(`${api}/skills`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ skill: newSkillName }),
+    });
+    const data = await response.json();
+    setSkillList(data.skills);
   };
 
   const handleKeyPress = (e) => {
@@ -51,6 +61,5 @@ const CreateSkill = ({ skillList, setSkillList }) => {
 export default CreateSkill;
 
 CreateSkill.propTypes = {
-  skillList: PropTypes.arrayOf(PropTypes.object).isRequired,
   setSkillList: PropTypes.func.isRequired,
 };

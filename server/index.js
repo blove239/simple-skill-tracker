@@ -7,7 +7,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const routes = require('./routes/routes.js');
+const api = require('./api');
 const config = require('./utils/config');
 require('dotenv').config();
 
@@ -34,7 +34,7 @@ const jwtCheck = jwt({
 
 app.use(jwtCheck);
 
-app.use('/api/v1', routes);
+app.use('/api/v1', api);
 
 const uri = process.env.MONGO_URI;
 

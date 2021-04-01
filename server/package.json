@@ -2,7 +2,7 @@
   "name": "simple-skill-tracker-server",
   "version": "0.1.0",
   "description": "Simple Skill tracker server",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
