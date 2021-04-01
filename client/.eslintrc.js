@@ -17,6 +17,5 @@ module.exports = {
   plugins: [
     'react',
   ],
-  rules: {
-  },
+  rules: { 'no-underscore-dangle': 'off' },
 };

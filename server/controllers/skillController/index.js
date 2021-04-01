@@ -15,6 +15,14 @@ const skillController = {
     await newSkill.save();
     userController.addSkill(req, res, newSkill, userDoc);
   },
+  delete: async (req, res) => {
+    const { skillId } = req.params;
+    Skill.deleteOne({ _id: skillId }, (err) => {
+      if (err) console.log(err);
+    });
+
+    userController.returnSkills(req, res);
+  },
 };
 
 module.exports = skillController;

@@ -11,6 +11,7 @@ const CreateSkill = ({ setSkillList }) => {
   const [newSkillName, setNewSkillName] = useState('');
   const api = process.env.REACT_APP_API;
   const { getAccessTokenSilently } = useAuth0();
+
   const createSkill = async () => {
     const token = await getAccessTokenSilently();
     const response = await fetch(`${api}/skills`, {

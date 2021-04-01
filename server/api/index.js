@@ -22,8 +22,6 @@ routes.patch('/skills', (req, res) => {
   res.send({ message: 'add new skill endpoint' });
 });
 
-routes.delete('/skills/:skillid', (req, res) => {
-  res.send({ message: 'soft deletion of one skill' });
-});
+routes.delete('/skills/:skillId', skillController.delete);
 
 module.exports = routes;
