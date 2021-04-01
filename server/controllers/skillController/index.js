@@ -17,11 +17,38 @@ const skillController = {
   },
   delete: async (req, res) => {
     const { skillId } = req.params;
-    Skill.deleteOne({ _id: skillId }, (err) => {
+    const userDoc = await User.findOne({ authToken: req.user.sub })
+      .exec();
+    const skillDoc = await Skill.findOne({ _id: skillId, createdBy: userDoc._id }, (err) => {
       if (err) console.log(err);
     });
-
-    userController.returnSkills(req, res);
+    skillDoc.isDeleted = true;
+    await skillDoc.save();
+    res.json({ success: true, message: 'skill deleted' });
+  },
+  returnSkill: async (req, res) => {
+    const { skillId } = req.params;
+    const userDoc = await User.findOne({ authToken: req.user.sub })
+      .exec();
+    const skillDoc = await Skill.findOne({ _id: skillId, createdBy: userDoc._id }, (err) => {
+      if (err) console.log(err);
+    });
+    res.json({ skills: skillDoc });
+  },
+  updateSkill: async (req, res) => {
+    const { skillId } = req.params;
+    const userDoc = await User.findOne({ authToken: req.user.sub })
+      .exec();
+    const skillDoc = await Skill.findOne({ _id: skillId, createdBy: userDoc._id }, (err) => {
+      if (err) console.log(err);
+    });
+    if (req.body.incrementSkill) {
+      skillDoc.hours += 0.5;
+    } if (req.body.resetSkill) {
+      skillDoc.hours = 0;
+    }
+    await skillDoc.save();
+    res.json({ success: true, message: 'skill updated' });
   },
 };
 

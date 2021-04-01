@@ -1,26 +1,25 @@
 const User = require('../../models/userModel/index');
-const Skill = require('../../models/skillModel/index');
 
 const userController = {
-  find: async (req, res) => {
-    const userDoc = await User.findOne({ authToken: req.user.sub })
-      .exec();
-    if (!userDoc) {
-      userController.create(req, res);
-    } else {
-      userController.returnSkills(req, res);
-    }
-  },
-  create: async (req, res) => {
-    const newUser = new User({ authToken: req.user.sub });
-    await newUser.save();
-    userController.returnSkills(req, res);
-  },
   addSkill: async (req, res, newSkill, userDoc) => {
     const tempUserDoc = userDoc;
     tempUserDoc.skills.push(newSkill);
     await tempUserDoc.save();
-    userController.returnSkills(req, res);
+    res.json({ success: true, message: 'new skill added' });
+  },
+  createUser: async (req, res) => {
+    const newUser = new User({ authToken: req.user.sub });
+    await newUser.save();
+    res.json({ success: true, message: 'new user created' });
+  },
+  findUser: async (req, res) => {
+    const userDoc = await User.findOne({ authToken: req.user.sub })
+      .exec();
+    if (!userDoc) {
+      userController.createUser(req, res);
+    } else {
+      res.json({ success: true, message: 'user already exists' });
+    }
   },
   returnSkills: async (req, res) => {
     const userDoc = await User.findOne({ authToken: req.user.sub })

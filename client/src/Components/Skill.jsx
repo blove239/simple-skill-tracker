@@ -11,39 +11,61 @@ import PropTypes from 'prop-types';
 
 const Skill = ({
   skill,
-  setSkillList,
-  skillList,
-  skillIndex,
+  updateSkills,
 }) => {
   const { getAccessTokenSilently } = useAuth0();
   const api = process.env.REACT_APP_API;
 
-  const incrementSkill = (index) => {
-    const tempSkillList = skillList.slice();
-    const tempSkill = skillList[index];
-    tempSkill.hours += 0.5;
-    tempSkillList[index] = tempSkill;
-    setSkillList(tempSkillList);
-  };
-
-  const resetSkill = (index) => {
-    const tempSkillList = skillList.slice();
-    const tempSkill = skillList[index];
-    tempSkill.hours = 0;
-    tempSkillList[index] = tempSkill;
-    setSkillList(tempSkillList);
-  };
-
   const handleDelete = async () => {
-    const token = await getAccessTokenSilently();
-    const response = await fetch(`${api}/skills/${skill._id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    setSkillList(data.skills);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(`${api}/skills/${skill._id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (data.success) {
+        updateSkills();
+      } else {
+        console.log(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const patchSkill = async (attr) => {
+    const bodyObject = {};
+    bodyObject[attr] = true;
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(`${api}/skills/${skill._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(bodyObject),
+      });
+      const data = await response.json();
+      if (data.success) {
+        updateSkills();
+      } else {
+        console.log(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleIncrement = async () => {
+    patchSkill('incrementSkill');
+  };
+
+  const handleReset = async () => {
+    patchSkill('resetSkill');
   };
 
   return (
@@ -52,12 +74,11 @@ const Skill = ({
         <Row>
           <Col>
             {skill.title}
-            {skill._id}
           </Col>
           <Col className="d-flex justify-content-end">
             <Button
               size="sm"
-              onClick={handleDelete}
+              onClick={() => { handleDelete(); }}
             >
               DELETE
             </Button>
@@ -66,19 +87,19 @@ const Skill = ({
         <Row className="mx-auto">
           Level:
           {' '}
-          {Math.floor(skill.hours / 5)}
+          {Math.floor(skill.hours / 5) + 1}
           <Button
             className="mx-2"
             variant="secondary"
             size="sm"
-            onClick={() => { resetSkill(skillIndex); }}
+            onClick={() => { handleReset(); }}
           >
             Reset Skill
           </Button>
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => { incrementSkill(skillIndex); }}
+            onClick={() => { handleIncrement(); }}
           >
             Increment Skill
           </Button>
@@ -96,7 +117,6 @@ const Skill = ({
 export default Skill;
 
 Skill.propTypes = {
-  setSkillList: PropTypes.func.isRequired,
   skill: PropTypes.shape({
     dateCreated: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
@@ -104,6 +124,5 @@ Skill.propTypes = {
     title: PropTypes.string.isRequired,
     hours: PropTypes.number.isRequired,
   }).isRequired,
-  skillList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  skillIndex: PropTypes.number.isRequired,
+  updateSkills: PropTypes.func.isRequired,
 };

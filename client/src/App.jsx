@@ -15,6 +15,22 @@ const App = () => {
 
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
 
+  const updateSkills = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch('http://localhost:8003/api/v1/skills',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = await response.json();
+      setSkillList(data.skills);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(async () => {
     if (isAuthenticated && !isLoading) {
       try {
@@ -26,7 +42,11 @@ const App = () => {
             },
           });
         const data = await response.json();
-        setSkillList(data.skills);
+        if (data.success) {
+          updateSkills();
+        } else {
+          console.log(data);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -44,22 +64,17 @@ const App = () => {
         <Row className="d-flex justify-content-center">
           <Col xs xl="6">
             <CreateSkill
-              skillList={skillList}
-              setSkillList={setSkillList}
+              updateSkills={updateSkills}
             />
           </Col>
         </Row>
         <Row className="d-flex justify-content-center">
           <Col xs xl="6">
-            {skillList.map((skill, index) => (
+            {skillList.map((skill) => (
               <Skill
-                // key will change to id based from mongoDB on final version
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                skillList={skillList}
-                setSkillList={setSkillList}
-                skillIndex={index}
+                key={skill._id}
                 skill={skill}
+                updateSkills={updateSkills}
               />
             ))}
           </Col>

@@ -7,23 +7,32 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 
-const CreateSkill = ({ setSkillList }) => {
+const CreateSkill = ({ updateSkills }) => {
   const [newSkillName, setNewSkillName] = useState('');
   const api = process.env.REACT_APP_API;
   const { getAccessTokenSilently } = useAuth0();
 
   const createSkill = async () => {
-    const token = await getAccessTokenSilently();
-    const response = await fetch(`${api}/skills`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ skill: newSkillName }),
-    });
-    const data = await response.json();
-    setSkillList(data.skills);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(`${api}/skills`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ skill: newSkillName }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        updateSkills();
+      } else {
+        console.log(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setNewSkillName('');
   };
 
   const handleKeyPress = (e) => {
@@ -62,5 +71,5 @@ const CreateSkill = ({ setSkillList }) => {
 export default CreateSkill;
 
 CreateSkill.propTypes = {
-  setSkillList: PropTypes.func.isRequired,
+  updateSkills: PropTypes.func.isRequired,
 };
