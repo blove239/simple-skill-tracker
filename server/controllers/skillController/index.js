@@ -1,9 +1,8 @@
 const Skill = require('../../models/skillModel/index');
 const User = require('../../models/userModel/index');
-const userController = require('../userController');
 
 const skillController = {
-  create: async (req, res) => {
+  createSkill: async (req, res) => {
     const userDoc = await User.findOne({ authToken: req.user.sub })
       .exec();
     const newSkill = new Skill({
@@ -13,7 +12,7 @@ const skillController = {
       title: req.body.skill,
     });
     await newSkill.save();
-    userController.addSkill(req, res, newSkill, userDoc);
+    res.json({ success: true, message: 'new skill added' });
   },
   delete: async (req, res) => {
     const { skillId } = req.params;
@@ -26,7 +25,7 @@ const skillController = {
     await skillDoc.save();
     res.json({ success: true, message: 'skill deleted' });
   },
-  returnSkill: async (req, res) => {
+  returnOneSkill: async (req, res) => {
     const { skillId } = req.params;
     const userDoc = await User.findOne({ authToken: req.user.sub })
       .exec();
@@ -34,6 +33,15 @@ const skillController = {
       if (err) console.log(err);
     });
     res.json({ skills: skillDoc });
+  },
+  returnSkills: async (req, res) => {
+    const userDoc = await User.findOne({ authToken: req.user.sub })
+      .exec();
+    const skills = await Skill.find({ createdBy: userDoc._id }, (err) => {
+      if (err) console.log(err);
+    });
+    const activeSkills = skills.filter((skill) => !skill.isDeleted);
+    res.json({ skills: activeSkills });
   },
   updateSkill: async (req, res) => {
     const { skillId } = req.params;

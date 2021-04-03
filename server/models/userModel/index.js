@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema({
   authToken: { type: String, unique: true },
-  skills: [{ type: Schema.Types.ObjectId, ref: 'SkillModel' }],
+  dateCreated: { type: Date, default: Date.now() },
 });
 
 module.exports = mongoose.model('UserModel', UserSchema);

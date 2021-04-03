@@ -8,11 +8,11 @@ routes.get('/authorized', (req, res) => {
 
 routes.get('/users', userController.findUser);
 
-routes.get('/skills', userController.returnSkills);
+routes.get('/skills', skillController.returnSkills);
 
-routes.get('/skills/:skillId', skillController.returnSkill);
+routes.get('/skills/:skillId', skillController.returnOneSkill);
 
-routes.post('/skills', skillController.create);
+routes.post('/skills', skillController.createSkill);
 
 routes.patch('/skills/:skillId', skillController.updateSkill);
 
