@@ -29,19 +29,19 @@ const skillController = {
     const { skillId } = req.params;
     const userDoc = await User.findOne({ authToken: req.user.sub })
       .exec();
-    const skillDoc = await Skill.findOne({ _id: skillId, createdBy: userDoc._id }, (err) => {
-      if (err) console.log(err);
-    });
+    const skillDoc = await Skill.findOne({ _id: skillId, createdBy: userDoc._id, isDeleted: false },
+      (err) => {
+        if (err) console.log(err);
+      });
     res.json({ skills: skillDoc });
   },
   returnSkills: async (req, res) => {
     const userDoc = await User.findOne({ authToken: req.user.sub })
       .exec();
-    const skills = await Skill.find({ createdBy: userDoc._id }, (err) => {
+    const skills = await Skill.find({ createdBy: userDoc._id, isDeleted: false }, (err) => {
       if (err) console.log(err);
     });
-    const activeSkills = skills.filter((skill) => !skill.isDeleted);
-    res.json({ skills: activeSkills });
+    res.json({ skills });
   },
   updateSkill: async (req, res) => {
     const { skillId } = req.params;
