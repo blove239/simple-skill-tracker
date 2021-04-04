@@ -9,6 +9,8 @@ import {
 
 const CreateSkill = ({ updateSkills }) => {
   const [newSkillName, setNewSkillName] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(true);
   const api = process.env.REACT_APP_API;
   const { getAccessTokenSilently } = useAuth0();
 
@@ -35,9 +37,22 @@ const CreateSkill = ({ updateSkills }) => {
     setNewSkillName('');
   };
 
+  const handleSubmit = () => {
+    if (newSkillName.length > 30) {
+      setError(true);
+      setErrorMessage('Skill name must be 30 characters or less.');
+    } else if (newSkillName.length <= 2) {
+      setError(true);
+      setErrorMessage('Skill name must be at least 2 characters long');
+    } else {
+      setError(false);
+      createSkill();
+    }
+  };
+
   const handleKeyPress = (e) => {
     if (e.charCode === 13) {
-      createSkill();
+      handleSubmit();
     }
   };
 
@@ -50,19 +65,22 @@ const CreateSkill = ({ updateSkills }) => {
       <FormControl
         placeholder="Enter Skill Name"
         aria-label="Enter Skill Name"
-        aria-describedby="basic-addon2"
         value={newSkillName}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
+        isInvalid={error}
       />
       <InputGroup.Append>
         <Button
           variant="outline-secondary"
-          onClick={createSkill}
+          onClick={handleSubmit}
         >
           Create Skill
         </Button>
       </InputGroup.Append>
+      <FormControl.Feedback type="invalid">
+        {errorMessage}
+      </FormControl.Feedback>
     </InputGroup>
   );
 };

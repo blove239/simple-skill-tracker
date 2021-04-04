@@ -8,7 +8,7 @@ routes.get('/authorized', (req, res) => {
 
 routes.get('/users', userController.findUser);
 
-routes.get('/skills', skillController.returnSkills);
+routes.get('/skills', skillController.returnAllSkills);
 
 routes.get('/skills/:skillId', skillController.returnOneSkill);
 

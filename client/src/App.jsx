@@ -44,8 +44,6 @@ const App = () => {
         const data = await response.json();
         if (data.success) {
           updateSkills();
-        } else {
-          console.log(data);
         }
       } catch (err) {
         console.log(err);
