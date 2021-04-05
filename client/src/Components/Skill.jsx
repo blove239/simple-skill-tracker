@@ -7,6 +7,8 @@ import {
   Row,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrashAlt, faUndoAlt } from '@fortawesome/free-solid-svg-icons';
 import ProgressBar from './ProgressBar';
 import {
   COLOR_LIST,
@@ -74,40 +76,43 @@ const Skill = ({
   useEffect(() => {
     setCurrentColorNum((Math.floor(skill.hours / FIVE_HOURS)) % COLOR_LIST_LENGTH);
   }, [skill.hours]);
+
   return (
     <Container className="mb-4">
       <Col>
         <Row>
-          <Col>
+          <Col className="font-weight-bold">
             {skill.title}
           </Col>
           <Col className="d-flex justify-content-end">
             <Button
               size="sm"
+              variant="dark"
               onClick={() => { handleDelete(); }}
             >
-              DELETE
+              <FontAwesomeIcon icon={faTrashAlt} />
             </Button>
           </Col>
         </Row>
-        <Row className="mx-auto">
+        <Row className="ml-3">
           Level:
           {' '}
           {Math.floor(skill.hours / FIVE_HOURS) + 1}
           <Button
-            className="mx-2"
-            variant="secondary"
-            size="sm"
+            className="ml-3"
             onClick={() => { handleReset(); }}
+            size="sm"
+            variant="secondary"
           >
-            Reset Skill
+            <FontAwesomeIcon icon={faUndoAlt} />
           </Button>
           <Button
-            variant="secondary"
-            size="sm"
+            className="ml-3"
             onClick={() => { handleIncrement(); }}
+            size="sm"
+            variant="secondary"
           >
-            Increment Skill
+            <FontAwesomeIcon icon={faPlus} />
           </Button>
         </Row>
         <ProgressBar
