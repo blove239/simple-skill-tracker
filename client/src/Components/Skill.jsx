@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
   Button,
   Col,
   Container,
-  ProgressBar,
   Row,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import ProgressBar from './ProgressBar';
+import {
+  COLOR_LIST,
+  COLOR_LIST_LENGTH,
+  FIVE_HOURS,
+  ONE_HUNDRED_PERCENT,
+} from '../utils/constants';
 
 const Skill = ({
   skill,
   updateSkills,
 }) => {
+  const [currentColorNum, setCurrentColorNum] = useState(0);
   const { getAccessTokenSilently } = useAuth0();
   const api = process.env.REACT_APP_API;
 
@@ -28,8 +35,6 @@ const Skill = ({
       const data = await response.json();
       if (data.success) {
         updateSkills();
-      } else {
-        console.log(data);
       }
     } catch (err) {
       console.log(err);
@@ -52,8 +57,6 @@ const Skill = ({
       const data = await response.json();
       if (data.success) {
         updateSkills();
-      } else {
-        console.log(data);
       }
     } catch (err) {
       console.log(err);
@@ -68,8 +71,11 @@ const Skill = ({
     patchSkill('resetSkill');
   };
 
+  useEffect(() => {
+    setCurrentColorNum((Math.floor(skill.hours / FIVE_HOURS)) % COLOR_LIST_LENGTH);
+  }, [skill.hours]);
   return (
-    <Container>
+    <Container className="mb-4">
       <Col>
         <Row>
           <Col>
@@ -87,7 +93,7 @@ const Skill = ({
         <Row className="mx-auto">
           Level:
           {' '}
-          {Math.floor(skill.hours / 5) + 1}
+          {Math.floor(skill.hours / FIVE_HOURS) + 1}
           <Button
             className="mx-2"
             variant="secondary"
@@ -105,9 +111,8 @@ const Skill = ({
           </Button>
         </Row>
         <ProgressBar
-          className="example"
-          label={`${skill.hours} hours`}
-          now={((skill.hours % 5) / 5) * 100}
+          bgColor={COLOR_LIST[currentColorNum]}
+          completed={((skill.hours % FIVE_HOURS) / FIVE_HOURS) * ONE_HUNDRED_PERCENT}
         />
       </Col>
     </Container>
