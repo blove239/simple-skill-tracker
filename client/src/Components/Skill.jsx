@@ -9,6 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faUndoAlt } from '@fortawesome/free-solid-svg-icons';
+import ConfirmDelete from './ConfirmDelete';
 import ProgressBar from './ProgressBar';
 import {
   COLOR_LIST,
@@ -22,7 +23,10 @@ const Skill = ({
   updateSkills,
 }) => {
   const [currentColorNum, setCurrentColorNum] = useState(0);
+  const [showDelete, setShowDelete] = useState(false);
+  const handleShowDelete = () => setShowDelete(true);
   const { getAccessTokenSilently } = useAuth0();
+
   const api = process.env.REACT_APP_API;
 
   const handleDelete = async () => {
@@ -79,6 +83,12 @@ const Skill = ({
 
   return (
     <Container className="mb-4">
+      <ConfirmDelete
+        show={showDelete}
+        setShow={setShowDelete}
+        skillTitle={skill.title}
+        handleDelete={handleDelete}
+      />
       <Col>
         <Row>
           <Col className="font-weight-bold">
@@ -88,7 +98,7 @@ const Skill = ({
             <Button
               size="sm"
               variant="dark"
-              onClick={() => { handleDelete(); }}
+              onClick={() => { handleShowDelete(); }}
             >
               <FontAwesomeIcon icon={faTrashAlt} />
             </Button>
