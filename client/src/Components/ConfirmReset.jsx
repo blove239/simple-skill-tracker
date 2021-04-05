@@ -5,8 +5,8 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const ConfirmDelete = ({
-  handleDelete,
+const ConfirmReset = ({
+  handleReset,
   setShow,
   show,
   skillTitle,
@@ -17,10 +17,10 @@ const ConfirmDelete = ({
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
+          <Modal.Title>Confirm Skill Reset</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Please confirm that you want to delete skill
+          Please confirm that you want to reset skill
           <span className="font-weight-bold">
             {' '}
             { skillTitle }
@@ -34,10 +34,10 @@ const ConfirmDelete = ({
             variant="danger"
             onClick={() => {
               handleClose();
-              handleDelete();
+              handleReset();
             }}
           >
-            Delete Skill
+            Reset Skill
           </Button>
         </Modal.Footer>
       </Modal>
@@ -45,10 +45,10 @@ const ConfirmDelete = ({
   );
 };
 
-export default ConfirmDelete;
+export default ConfirmReset;
 
-ConfirmDelete.propTypes = {
-  handleDelete: PropTypes.func.isRequired,
+ConfirmReset.propTypes = {
+  handleReset: PropTypes.func.isRequired,
   setShow: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   skillTitle: PropTypes.string.isRequired,

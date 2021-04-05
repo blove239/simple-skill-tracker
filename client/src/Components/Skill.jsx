@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faUndoAlt } from '@fortawesome/free-solid-svg-icons';
 import ConfirmDelete from './ConfirmDelete';
+import ConfirmReset from './ConfirmReset';
 import ProgressBar from './ProgressBar';
 import {
   COLOR_LIST,
@@ -24,7 +25,9 @@ const Skill = ({
 }) => {
   const [currentColorNum, setCurrentColorNum] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
+  const [showReset, setShowReset] = useState(false);
   const handleShowDelete = () => setShowDelete(true);
+  const handleShowReset = () => setShowReset(true);
   const { getAccessTokenSilently } = useAuth0();
 
   const api = process.env.REACT_APP_API;
@@ -89,6 +92,12 @@ const Skill = ({
         skillTitle={skill.title}
         handleDelete={handleDelete}
       />
+      <ConfirmReset
+        show={showReset}
+        setShow={setShowReset}
+        skillTitle={skill.title}
+        handleReset={handleReset}
+      />
       <Col>
         <Row>
           <Col className="font-weight-bold">
@@ -110,7 +119,7 @@ const Skill = ({
           {Math.floor(skill.hours / FIVE_HOURS) + 1}
           <Button
             className="ml-3"
-            onClick={() => { handleReset(); }}
+            onClick={() => { handleShowReset(); }}
             size="sm"
             variant="secondary"
           >
