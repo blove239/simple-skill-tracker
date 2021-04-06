@@ -4,15 +4,15 @@ import {
   Container, Col, Row,
 } from 'react-bootstrap';
 import Skill from './Skill';
-import { EXAMPLE_SKILL } from '../utils/constants';
+import { EIGHTEEN_HUNDRED_MILLISECONDS, EXAMPLE_SKILL, HALF_HOUR } from '../utils/constants';
 
 const About = () => {
   const [hourCount, setHour] = useState(0);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setHour(hourCount + 0.5);
-    }, 1800);
+      setHour(hourCount + HALF_HOUR);
+    }, EIGHTEEN_HUNDRED_MILLISECONDS);
 
     return () => {
       clearTimeout(timeout);

@@ -6,6 +6,7 @@ import {
   FormControl,
   InputGroup,
 } from 'react-bootstrap';
+import { ENTER_CHARCODE, MAX_INPUT_LEN, MIN_INPUT_LEN } from '../utils/constants';
 import '../css/app.css';
 
 const CreateSkill = ({ updateSkills }) => {
@@ -39,10 +40,10 @@ const CreateSkill = ({ updateSkills }) => {
   };
 
   const handleSubmit = () => {
-    if (newSkillName.length > 30) {
+    if (newSkillName.length > MAX_INPUT_LEN) {
       setError(true);
-      setErrorMessage('Skill name must be 30 characters or less.');
-    } else if (newSkillName.length <= 2) {
+      setErrorMessage('Skill name must be 21 characters or less.');
+    } else if (newSkillName.length <= MIN_INPUT_LEN) {
       setError(true);
       setErrorMessage('Skill name must be at least 2 characters long');
     } else {
@@ -52,7 +53,7 @@ const CreateSkill = ({ updateSkills }) => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.charCode === 13) {
+    if (e.charCode === ENTER_CHARCODE) {
       handleSubmit();
     }
   };

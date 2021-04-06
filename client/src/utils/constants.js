@@ -45,9 +45,7 @@ export const COLOR_LIST = [
 
 export const COLOR_LIST_LENGTH = 42;
 
-export const FIVE_HOURS = 5;
-
-export const ONE_HUNDRED_PERCENT = 100;
+export const ENTER_CHARCODE = 13;
 
 export const EXAMPLE_SKILL = {
   dateCreated: 0,
@@ -55,3 +53,15 @@ export const EXAMPLE_SKILL = {
   isDeleted: false,
   title: 'Example Skill',
 };
+
+export const FIVE_HOURS = 5;
+
+export const HALF_HOUR = 0.5;
+
+export const EIGHTEEN_HUNDRED_MILLISECONDS = 1800;
+
+export const MAX_INPUT_LEN = 21;
+
+export const MIN_INPUT_LEN = 2;
+
+export const ONE_HUNDRED_PERCENT = 100;
