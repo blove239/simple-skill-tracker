@@ -4,7 +4,6 @@ const app = express();
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const api = require('./api');
@@ -13,8 +12,8 @@ require('dotenv').config();
 
 app.use(cors());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
   extended: true,
 }));
 
@@ -38,13 +37,13 @@ app.use('/api/v1', api);
 
 const uri = process.env.MONGO_URI;
 
-function listen() {
+const listen = () => {
   app.listen(PORT, () => {
     console.log(`Server listening on port, ${PORT}`);
   });
-}
+};
 
-function connect() {
+const connect = () => {
   mongoose.connection
     .on('error', console.log)
     .on('disconnected', connect)
@@ -54,6 +53,6 @@ function connect() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-}
+};
 
 connect();
