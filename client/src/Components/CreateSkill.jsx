@@ -7,7 +7,6 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 import { ENTER_CHARCODE, MAX_INPUT_LEN, MIN_INPUT_LEN } from '../utils/constants';
-import '../css/app.css';
 
 const CreateSkill = ({ updateSkills }) => {
   const [newSkillName, setNewSkillName] = useState('');

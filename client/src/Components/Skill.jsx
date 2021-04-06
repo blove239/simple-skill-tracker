@@ -17,7 +17,6 @@ import {
   COLOR_LIST_LENGTH,
   FIVE_HOURS,
 } from '../utils/constants';
-import '../css/app.css';
 
 const Skill = ({
   skill,

@@ -11,16 +11,17 @@ import Footer from './Components/Footer';
 import Loading from './Components/Loading';
 import NavBar from './Components/NavBar';
 import Skill from './Components/Skill';
+import './css/app.css';
 
 const App = () => {
   const [skillList, setSkillList] = useState([]);
-
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+  const api = process.env.REACT_APP_API;
 
   const updateSkills = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await fetch('http://localhost:8003/api/v1/skills',
+      const response = await fetch(`${api}/skills`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,7 +38,7 @@ const App = () => {
     if (isAuthenticated && !isLoading) {
       try {
         const token = await getAccessTokenSilently();
-        const response = await fetch('http://localhost:8003/api/v1/users',
+        const response = await fetch(`${api}/users`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

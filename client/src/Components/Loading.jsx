@@ -1,13 +1,14 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import loading from '../assets/loading.svg';
 
 const Loading = () => (
-  <div className="spinner d-flex justify-content-center">
+  <Container className="spinner d-flex justify-content-center">
     <img
       src={loading}
       alt="Loading"
     />
-  </div>
+  </Container>
 );
 
 export default Loading;
