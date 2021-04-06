@@ -1,15 +1,19 @@
+require('dotenv').config();
+
+const { JWKSURI, AUDIENCE, ISSUER } = process.env;
+
 const config = {};
 
 config.jwtSecretConfig = {
   cache: true,
   rateLimit: true,
   jwksRequestsPerMinute: 5,
-  jwksUri: 'https://dev-11l9mafb.auth0.com/.well-known/jwks.json',
+  jwksUri: JWKSURI,
 };
 
 config.jwtCheckConfig = {
-  audience: 'localhost:8003/',
-  issuer: 'https://dev-11l9mafb.auth0.com/',
+  audience: AUDIENCE,
+  issuer: ISSUER,
   algorithms: ['RS256'],
 };
 
