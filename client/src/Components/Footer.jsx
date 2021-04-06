@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 
 const Footer = () => (
-  <Container className="small fixed-bottom bg-light d-flex justify-content-center">
+  <Container className="fixed-bottom bg-light d-flex justify-content-center">
     <a
       className="mr-1 text-dark"
       href="https://github.com/blove239/simple-skill-tracker"
