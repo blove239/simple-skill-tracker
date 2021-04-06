@@ -5,7 +5,9 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useAuth0 } from '@auth0/auth0-react';
+import About from './Components/About';
 import CreateSkill from './Components/CreateSkill';
+import Footer from './Components/Footer';
 import Loading from './Components/Loading';
 import NavBar from './Components/NavBar';
 import Skill from './Components/Skill';
@@ -59,24 +61,31 @@ const App = () => {
     <>
       <NavBar />
       <Container>
-        <Row className="d-flex justify-content-center">
-          <Col xs xl="6">
-            <CreateSkill
-              updateSkills={updateSkills}
-            />
-          </Col>
-        </Row>
-        <Row className="d-flex justify-content-center">
-          <Col xs xl="6">
-            {skillList.map((skill) => (
-              <Skill
-                key={skill._id}
-                skill={skill}
-                updateSkills={updateSkills}
-              />
-            ))}
-          </Col>
-        </Row>
+        {isAuthenticated
+          ? (
+            <>
+              <Row className="d-flex justify-content-center">
+                <Col xs xl="6">
+                  <CreateSkill
+                    updateSkills={updateSkills}
+                  />
+                </Col>
+              </Row>
+              <Row className="d-flex justify-content-center">
+                <Col xs xl="6">
+                  {skillList.map((skill) => (
+                    <Skill
+                      key={skill._id}
+                      skill={skill}
+                      updateSkills={updateSkills}
+                    />
+                  ))}
+                </Col>
+              </Row>
+            </>
+          )
+          : <About /> }
+        <Footer />
       </Container>
     </>
   );

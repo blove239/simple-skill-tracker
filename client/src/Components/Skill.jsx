@@ -17,9 +17,11 @@ import {
   COLOR_LIST_LENGTH,
   FIVE_HOURS,
 } from '../utils/constants';
+import '../css/app.css';
 
 const Skill = ({
   skill,
+  disableButtons,
   updateSkills,
 }) => {
   const [currentColorNum, setCurrentColorNum] = useState(0);
@@ -86,7 +88,7 @@ const Skill = ({
   }, [skill.hours]);
 
   return (
-    <Container variamt="primary" className="mb-4 border border-dark rounded">
+    <Container variamt="primary" className="boxstyle mb-4">
       <ConfirmDelete
         show={showDelete}
         setShow={setShowDelete}
@@ -107,6 +109,7 @@ const Skill = ({
           <Col className="d-flex justify-content-end">
             <Button
               size="sm"
+              disabled={disableButtons}
               variant="dark"
               onClick={() => { handleShowDelete(); }}
             >
@@ -120,6 +123,7 @@ const Skill = ({
           {Math.floor(skill.hours / FIVE_HOURS) + 1}
           <Button
             className="ml-3"
+            disabled={disableButtons}
             onClick={() => { handleShowReset(); }}
             size="sm"
             variant="secondary"
@@ -128,6 +132,7 @@ const Skill = ({
           </Button>
           <Button
             className="ml-3"
+            disabled={disableButtons}
             onClick={() => { handleIncrement(); }}
             size="sm"
             variant="secondary"
@@ -156,5 +161,6 @@ Skill.propTypes = {
     title: PropTypes.string.isRequired,
     hours: PropTypes.number.isRequired,
   }).isRequired,
+  disableButtons: PropTypes.bool.isRequired,
   updateSkills: PropTypes.func.isRequired,
 };

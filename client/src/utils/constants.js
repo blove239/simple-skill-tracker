@@ -48,3 +48,10 @@ export const COLOR_LIST_LENGTH = 42;
 export const FIVE_HOURS = 5;
 
 export const ONE_HUNDRED_PERCENT = 100;
+
+export const EXAMPLE_SKILL = {
+  dateCreated: 0,
+  _id: 0,
+  isDeleted: false,
+  title: 'Example Skill',
+};

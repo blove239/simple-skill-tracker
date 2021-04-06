@@ -6,6 +6,7 @@ import {
   FormControl,
   InputGroup,
 } from 'react-bootstrap';
+import '../css/app.css';
 
 const CreateSkill = ({ updateSkills }) => {
   const [newSkillName, setNewSkillName] = useState('');
@@ -61,7 +62,7 @@ const CreateSkill = ({ updateSkills }) => {
   };
 
   return (
-    <InputGroup className="my-4">
+    <InputGroup className="boxstyle my-4">
       <FormControl
         placeholder="Enter Skill Name"
         aria-label="Enter Skill Name"

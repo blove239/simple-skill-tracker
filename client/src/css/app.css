@@ -1,0 +1,6 @@
+.boxstyle {
+    padding: 10px;
+    background: #f4f5f6;
+    border-radius: 8px;
+    box-shadow: 8px 8px 8px #cfd0d1, -5px -5px 15px #ffffff;
+  }

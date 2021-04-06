@@ -7,7 +7,8 @@ import {
 
 const ProgressBar = ({ bgColor, skillHourCount }) => {
   const levelCount = () => ((skillHourCount % FIVE_HOURS) / FIVE_HOURS) * ONE_HUNDRED_PERCENT;
-  const containerStyles = {
+
+  const container = {
     height: 22,
     width: '100%',
     backgroundColor: '#e0e0de',
@@ -16,7 +17,7 @@ const ProgressBar = ({ bgColor, skillHourCount }) => {
     position: 'relative',
   };
 
-  const fillerStyles = {
+  const progress = {
     height: '100%',
     width: `${levelCount()}%`,
     backgroundColor: bgColor,
@@ -26,17 +27,17 @@ const ProgressBar = ({ bgColor, skillHourCount }) => {
     justifyContent: 'center',
   };
 
-  const hourStyle = {
+  const hour = {
     width: '100%',
     position: 'absolute',
   };
 
   return (
-    <div style={containerStyles}>
-      <div style={hourStyle}>
+    <div style={container}>
+      <div className="font-weight-bold" style={hour}>
         {`${skillHourCount} hours`}
       </div>
-      <div style={fillerStyles} />
+      <div style={progress} />
     </div>
   );
 };
