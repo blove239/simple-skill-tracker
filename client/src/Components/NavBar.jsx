@@ -15,9 +15,9 @@ const AuthNav = () => {
 };
 
 const NavBar = () => (
-  <Navbar bg="light">
+  <Navbar className="py-3" bg="dark">
     <Container xs="6" xl="6">
-      <Navbar.Brand href="/">
+      <Navbar.Brand className="text-white bg-dark" href="/">
         Simple Skill Tracker
       </Navbar.Brand>
       <AuthNav />

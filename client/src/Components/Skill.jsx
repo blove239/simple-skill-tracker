@@ -16,7 +16,6 @@ import {
   COLOR_LIST,
   COLOR_LIST_LENGTH,
   FIVE_HOURS,
-  ONE_HUNDRED_PERCENT,
 } from '../utils/constants';
 
 const Skill = ({
@@ -80,12 +79,14 @@ const Skill = ({
     patchSkill('resetSkill');
   };
 
+  const colorIndex = () => Math.floor(skill.hours / FIVE_HOURS) % COLOR_LIST_LENGTH;
+
   useEffect(() => {
-    setCurrentColorNum((Math.floor(skill.hours / FIVE_HOURS)) % COLOR_LIST_LENGTH);
+    setCurrentColorNum(colorIndex());
   }, [skill.hours]);
 
   return (
-    <Container className="mb-4">
+    <Container variamt="primary" className="mb-4 border border-dark rounded">
       <ConfirmDelete
         show={showDelete}
         setShow={setShowDelete}
@@ -99,7 +100,7 @@ const Skill = ({
         handleReset={handleReset}
       />
       <Col>
-        <Row>
+        <Row className="mt-2">
           <Col className="font-weight-bold">
             {skill.title}
           </Col>
@@ -134,10 +135,12 @@ const Skill = ({
             <FontAwesomeIcon icon={faPlus} />
           </Button>
         </Row>
-        <ProgressBar
-          bgColor={COLOR_LIST[currentColorNum]}
-          completed={((skill.hours % FIVE_HOURS) / FIVE_HOURS) * ONE_HUNDRED_PERCENT}
-        />
+        <Row className="my-2">
+          <ProgressBar
+            bgColor={COLOR_LIST[currentColorNum]}
+            skillHourCount={skill.hours}
+          />
+        </Row>
       </Col>
     </Container>
   );

@@ -61,7 +61,7 @@ const CreateSkill = ({ updateSkills }) => {
   };
 
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className="my-4">
       <FormControl
         placeholder="Enter Skill Name"
         aria-label="Enter Skill Name"
