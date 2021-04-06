@@ -3,7 +3,7 @@ const Joi = require('joi');
 const validate = {
   createSkillSchema: Joi.string()
     .min(2)
-    .max(21)
+    .max(18)
     .required(),
   skillIDSchema: Joi.string()
     .required(),

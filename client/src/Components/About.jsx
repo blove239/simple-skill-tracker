@@ -34,7 +34,7 @@ const About = () => {
           </p>
           <p>
             Keep track of your skills with a levelling system.
-            Every five hours gain you a new level, motivating you to focus on your skills.
+            Every five hours, gain a new level, motivating you to focus on your skills.
           </p>
           <p>
             Create an account, and start keeping track of your skills!

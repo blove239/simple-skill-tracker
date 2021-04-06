@@ -103,10 +103,10 @@ const Skill = ({
       />
       <Col>
         <Row className="mt-2">
-          <Col className="font-weight-bold">
+          <Col xs={10} className="font-weight-bold align-bottom">
             {skill.title}
           </Col>
-          <Col className="d-flex justify-content-end">
+          <Col xs={2} className="d-flex justify-content-end">
             <Button
               size="sm"
               disabled={disableButtons}
