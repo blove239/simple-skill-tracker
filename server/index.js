@@ -32,13 +32,12 @@ const jwtCheck = jwt({
   ...config.jwtCheckConfig,
 });
 
-
 app.use('/api/v1', jwtCheck, api);
 
 app.use(express.static(path.resolve(__dirname, 'dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/dist/index.html'));
+  res.sendFile(path.join(__dirname, '/dist/index.html'));
 });
 
 const uri = process.env.MONGO_URI;
