@@ -48,8 +48,8 @@ export const COLOR_LIST_LENGTH = 42;
 export const ENTER_CHARCODE = 13;
 
 export const EXAMPLE_SKILL = {
-  dateCreated: 0,
-  _id: 0,
+  dateCreated: '0',
+  _id: '0',
   isDeleted: false,
   title: 'Example Skill',
 };

@@ -4,6 +4,7 @@ const app = express();
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const cors = require('cors');
+const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const api = require('./api');
@@ -31,9 +32,14 @@ const jwtCheck = jwt({
   ...config.jwtCheckConfig,
 });
 
-app.use(jwtCheck);
 
-app.use('/api/v1', api);
+app.use('/api/v1', jwtCheck, api);
+
+app.use(express.static(path.resolve(__dirname, 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/dist/index.html'));
+});
 
 const uri = process.env.MONGO_URI;
 

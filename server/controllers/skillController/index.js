@@ -1,6 +1,7 @@
 const Skill = require('../../models/skillModel/index');
 const User = require('../../models/userModel/index');
 const validate = require('../../utils/validation');
+const { HALF_HOUR, MAX_SKILL_COUNT } = require('../../utils/constants');
 
 const skillController = {
   createSkill: async (req, res) => {
@@ -9,14 +10,19 @@ const skillController = {
       await validate.createSkillSchema.validateAsync(skill);
       const userDoc = await User.findOne({ authToken: req.user.sub })
         .exec();
-      const newSkill = new Skill({
-        createdBy: userDoc._id,
-        hours: 0,
-        isDeleted: false,
-        title: skill,
-      });
-      await newSkill.save();
-      res.json({ success: true, message: 'new skill added' });
+      const skills = await Skill.find({ createdBy: userDoc._id, isDeleted: false });
+      if (skills.length >= MAX_SKILL_COUNT) {
+        res.json({ success: false, message: 'max skill count reached' });
+      } else {
+        const newSkill = new Skill({
+          createdBy: userDoc._id,
+          hours: 0,
+          isDeleted: false,
+          title: skill,
+        });
+        await newSkill.save();
+        res.json({ success: true, message: 'new skill added' });
+      }
     } catch (err) {
       res.json({ success: false, message: err });
     }
@@ -65,7 +71,7 @@ const skillController = {
         .exec();
       const skillDoc = await Skill.findOne({ _id: skillId, createdBy: userDoc._id });
       if (req.body.incrementSkill) {
-        skillDoc.hours += 0.5;
+        skillDoc.hours += HALF_HOUR;
       } if (req.body.resetSkill) {
         skillDoc.hours = 0;
       }

@@ -1,10 +1,15 @@
 {
   "name": "simple-skill-tracker-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Simple Skill tracker server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "build": "cd client && npm run build && cd .. && mkdir server/dist/ && cp -rf client/build/* server/dist",
+    "prebuild": "rm -rf server/dist/* client/build/*",
+    "postinstall": "cd client && npm install",
+    "deploy": "git push heroku main"
   },
   "keywords": [],
   "author": "Brandon Love",
@@ -18,11 +23,16 @@
     "jwks-rsa": "^2.0.1",
     "mongoose": "^5.12.2",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.7"
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7"
+  },
+    "engines": {
+    "npm": "7.5.1",
+    "node": "14.15.1"
   }
 }

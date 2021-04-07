@@ -26,8 +26,6 @@ const Skill = ({
   const [currentColorNum, setCurrentColorNum] = useState(0);
   const [showDelete, setShowDelete] = useState(false);
   const [showReset, setShowReset] = useState(false);
-  const handleShowDelete = () => setShowDelete(true);
-  const handleShowReset = () => setShowReset(true);
   const { getAccessTokenSilently } = useAuth0();
 
   const api = process.env.REACT_APP_API;
@@ -87,7 +85,7 @@ const Skill = ({
   }, [skill.hours]);
 
   return (
-    <Container variamt="primary" className="boxstyle mb-4">
+    <>
       <ConfirmDelete
         show={showDelete}
         setShow={setShowDelete}
@@ -100,57 +98,64 @@ const Skill = ({
         skillTitle={skill.title}
         handleReset={handleReset}
       />
-      <Col>
-        <Row className="mt-2">
-          <Col xs={10} className="font-weight-bold align-bottom">
-            {skill.title}
-          </Col>
-          <Col xs={2} className="d-flex justify-content-end">
+      <Container className="boxstyle mb-4">
+        <Col>
+          <Row className="mt-2">
+            <Col xs={10} className="font-weight-bold align-bottom">
+              {skill.title}
+            </Col>
+            <Col xs={2} className="d-flex justify-content-end">
+              <Button
+                size="sm"
+                disabled={disableButtons}
+                variant="dark"
+                onClick={() => { setShowDelete(true); }}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </Button>
+            </Col>
+          </Row>
+          <Row className="ml-3">
+            Level:
+            {' '}
+            {Math.floor(skill.hours / FIVE_HOURS) + 1}
             <Button
-              size="sm"
+              className="ml-3"
               disabled={disableButtons}
-              variant="dark"
-              onClick={() => { handleShowDelete(); }}
+              onClick={() => { setShowReset(true); }}
+              size="sm"
+              variant="secondary"
             >
-              <FontAwesomeIcon icon={faTrashAlt} />
+              <FontAwesomeIcon icon={faUndoAlt} />
             </Button>
-          </Col>
-        </Row>
-        <Row className="ml-3">
-          Level:
-          {' '}
-          {Math.floor(skill.hours / FIVE_HOURS) + 1}
-          <Button
-            className="ml-3"
-            disabled={disableButtons}
-            onClick={() => { handleShowReset(); }}
-            size="sm"
-            variant="secondary"
-          >
-            <FontAwesomeIcon icon={faUndoAlt} />
-          </Button>
-          <Button
-            className="ml-3"
-            disabled={disableButtons}
-            onClick={() => { handleIncrement(); }}
-            size="sm"
-            variant="secondary"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </Button>
-        </Row>
-        <Row className="my-2">
-          <ProgressBar
-            bgColor={COLOR_LIST[currentColorNum]}
-            skillHourCount={skill.hours}
-          />
-        </Row>
-      </Col>
-    </Container>
+            <Button
+              className="ml-3"
+              disabled={disableButtons}
+              onClick={() => { handleIncrement(); }}
+              size="sm"
+              variant="secondary"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </Button>
+          </Row>
+          <Row className="my-2">
+            <ProgressBar
+              bgColor={COLOR_LIST[currentColorNum]}
+              skillHourCount={skill.hours}
+            />
+          </Row>
+        </Col>
+      </Container>
+    </>
   );
 };
 
 export default Skill;
+
+Skill.defaultProps = {
+  disableButtons: false,
+  updateSkills: undefined,
+};
 
 Skill.propTypes = {
   skill: PropTypes.shape({
@@ -160,6 +165,6 @@ Skill.propTypes = {
     title: PropTypes.string.isRequired,
     hours: PropTypes.number.isRequired,
   }).isRequired,
-  disableButtons: PropTypes.bool.isRequired,
-  updateSkills: PropTypes.func.isRequired,
+  disableButtons: PropTypes.bool,
+  updateSkills: PropTypes.func,
 };

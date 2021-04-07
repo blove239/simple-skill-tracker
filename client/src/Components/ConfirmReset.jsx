@@ -15,7 +15,7 @@ const ConfirmReset = ({
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal animation={false} show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Skill Reset</Modal.Title>
         </Modal.Header>

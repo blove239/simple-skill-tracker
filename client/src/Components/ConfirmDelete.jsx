@@ -15,7 +15,7 @@ const ConfirmDelete = ({
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal animation={false} show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>

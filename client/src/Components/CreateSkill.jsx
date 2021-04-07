@@ -6,12 +6,15 @@ import {
   FormControl,
   InputGroup,
 } from 'react-bootstrap';
+import MaxSkills from './MaxSkills';
+
 import { ENTER_CHARCODE, MAX_INPUT_LEN, MIN_INPUT_LEN } from '../utils/constants';
 
 const CreateSkill = ({ updateSkills }) => {
   const [newSkillName, setNewSkillName] = useState('');
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(true);
+  const [showMaxSkills, setShowMaxSkills] = useState(false);
   const api = process.env.REACT_APP_API;
   const { getAccessTokenSilently } = useAuth0();
 
@@ -29,6 +32,8 @@ const CreateSkill = ({ updateSkills }) => {
       const data = await response.json();
       if (data.success) {
         updateSkills();
+      } else if (!data.success && data.message === 'max skill count reached') {
+        setShowMaxSkills(true);
       } else {
         console.log(data);
       }
@@ -62,27 +67,33 @@ const CreateSkill = ({ updateSkills }) => {
   };
 
   return (
-    <InputGroup className="boxstyle my-4">
-      <FormControl
-        placeholder="Enter Skill Name"
-        aria-label="Enter Skill Name"
-        value={newSkillName}
-        onChange={handleChange}
-        onKeyPress={handleKeyPress}
-        isInvalid={error}
+    <>
+      <MaxSkills
+        show={showMaxSkills}
+        setShow={setShowMaxSkills}
       />
-      <InputGroup.Append>
-        <Button
-          variant="outline-secondary"
-          onClick={handleSubmit}
-        >
-          Create Skill
-        </Button>
-      </InputGroup.Append>
-      <FormControl.Feedback type="invalid">
-        {errorMessage}
-      </FormControl.Feedback>
-    </InputGroup>
+      <InputGroup className="boxstyle my-4">
+        <FormControl
+          placeholder="Enter Skill Name"
+          aria-label="Enter Skill Name"
+          value={newSkillName}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
+          isInvalid={error}
+        />
+        <InputGroup.Append>
+          <Button
+            variant="outline-secondary"
+            onClick={handleSubmit}
+          >
+            Create Skill
+          </Button>
+        </InputGroup.Append>
+        <FormControl.Feedback type="invalid">
+          {errorMessage}
+        </FormControl.Feedback>
+      </InputGroup>
+    </>
   );
 };
 
