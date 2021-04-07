@@ -23,7 +23,7 @@ npm run build
 
 ## Development
 
-To start client on it own
+To start client on its own
 ```
 cd client
 npm start
