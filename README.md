@@ -14,25 +14,31 @@ Keep track of your skills with a levelling system. Every five hours gain you a n
 ```
 git clone https://github.com/blove239/simple-skill-tracker.git
 cd simple-skill-tracker
+npm install
 cd client
 npm install
 cd ..
-cd server
-npm install
+npm run build
 ```
 
 ## Development
 
-To start client and server
+To start client on it own
 ```
+cd client
 npm start
+```
+
+To start server
+```
+npm dev
 ```
 
 ## Deployment
 
-To build client
+Optimized for Heroku deployment
 ```
-npm run build
+npm deploy
 ```
 
 ## License
