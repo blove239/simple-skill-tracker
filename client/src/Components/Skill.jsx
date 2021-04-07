@@ -100,11 +100,11 @@ const Skill = ({
       />
       <Container className="boxstyle mb-4">
         <Col>
-          <Row className="mt-2">
-            <Col xs={10} className="font-weight-bold align-bottom">
+          <Row className="my-2">
+            <Col xs={10} className="font-weight-bold">
               {skill.title}
             </Col>
-            <Col xs={2} className="d-flex justify-content-end">
+            <Col xs={2}>
               <Button
                 size="sm"
                 disabled={disableButtons}

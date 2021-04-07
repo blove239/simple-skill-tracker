@@ -46,7 +46,7 @@ const CreateSkill = ({ updateSkills }) => {
   const handleSubmit = () => {
     if (newSkillName.length > MAX_INPUT_LEN) {
       setError(true);
-      setErrorMessage('Skill name must be 18 characters or less.');
+      setErrorMessage('Skill name must be 90 characters or less.');
     } else if (newSkillName.length <= MIN_INPUT_LEN) {
       setError(true);
       setErrorMessage('Skill name must be at least 2 characters long');

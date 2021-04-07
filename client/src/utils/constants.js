@@ -60,7 +60,7 @@ export const HALF_HOUR = 0.5;
 
 export const EIGHTEEN_HUNDRED_MILLISECONDS = 1800;
 
-export const MAX_INPUT_LEN = 18;
+export const MAX_INPUT_LEN = 90;
 
 export const MIN_INPUT_LEN = 2;
 
